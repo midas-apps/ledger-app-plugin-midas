@@ -41,7 +41,8 @@ void handle_finalize(ethPluginFinalize_t *msg) {
     printf_hex_array("Token lookup\n", ADDRESS_LENGTH, context->token_address);
     msg->tokenLookup1 = context->token_address;
 
-    context->m_product = determine_product_type(msg->pluginSharedRO->txContent->destination);
+    context->m_product = determine_product_type(msg->pluginSharedRO->txContent->destination,
+                                                &msg->pluginSharedRO->txContent->chainID);
 
     msg->result = ETH_PLUGIN_RESULT_OK;
 }
