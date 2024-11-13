@@ -62,6 +62,8 @@ class Object(object):
 class MToken(Enum):
     mBASIS = "mBASIS"
     mTBILL = "mTBILL"
+    mBASIS_BASE = "mBASIS_BASE"
+    mTBILL_BASE = "mTBILL_BASE"
     mBTC = "mBTC"
 
 class RedemptionVaultType(Enum):
@@ -93,6 +95,12 @@ def load_contracts():
     obj.mBtcDepositVaultContract = load_contract("mBTC","0x10cC8dbcA90Db7606013d8CD2E77eb024dF693bD")
     obj.mBtcRedemptionVaultContract = load_contract("mBTC","0x30d9D1e76869516AEa980390494AaEd45C3EfC1a")
 
+    obj.mTBillBaseDepositVaultContract = load_contract("mTBILL_BASE","0x8978e327FE7C72Fa4eaF4649C23147E279ae1470")
+    obj.mTBillBaseRedemptionVaultContract = load_contract("mTBILL_BASE","0x2a8c22E3b10036f3AEF5875d04f8441d4188b656")
+    
+    obj.mBasisBaseDepositVaultContract = load_contract("mBASIS_BASE","0x80b666D60293217661E7382737bb3E42348f7CE5")
+    obj.mBasisBaseRedemptionVaultContract = load_contract("mBASIS_BASE","0xF804a646C034749b5484bF7dfE875F6A4F969840")
+
     return obj
 
 contracts = load_contracts()
@@ -109,10 +117,13 @@ def prepare_tx_params_deposit_instant(client, m_token = MToken.mTBILL, params = 
     
     if m_token == MToken.mTBILL:
         depositVault = contracts.mTBillDepositVaultContract  
+    elif m_token == MToken.mTBILL_BASE:
+        depositVault = contracts.mTBillBaseDepositVaultContract  
     elif m_token == MToken.mBASIS: 
         depositVault = contracts.mBasisDepositVaultContract
+    elif m_token == MToken.mBASIS_BASE: 
+        depositVault = contracts.mBasisBaseDepositVaultContract
     else:
-        print("ABOBA", m_token, MToken.mBASIS)
         depositVault = contracts.mBtcDepositVaultContract
     
     token = getattr(params, 'token', USDT)
@@ -139,7 +150,7 @@ def prepare_tx_params_deposit_instant(client, m_token = MToken.mTBILL, params = 
         "gas": 173290,
         "to": depositVault.address,
         "value": Web3.to_wei(0, "ether"),
-        "chainId": ChainId.ETH,
+        "chainId": getattr(params, 'chainId', ChainId.ETH),
         "data": data
     }
 
@@ -150,11 +161,15 @@ def prepare_tx_params_deposit_request(client, m_token = MToken.mTBILL, params = 
 
     if m_token == MToken.mTBILL:
         depositVault = contracts.mTBillDepositVaultContract  
+    elif m_token == MToken.mTBILL_BASE:
+        depositVault = contracts.mTBillBaseDepositVaultContract  
     elif m_token == MToken.mBASIS: 
         depositVault = contracts.mBasisDepositVaultContract
+    elif m_token == MToken.mBASIS_BASE: 
+        depositVault = contracts.mBasisBaseDepositVaultContract
     else:
         depositVault = contracts.mBtcDepositVaultContract
-
+    
     token = getattr(params, 'token', USDT)
     if token.supported:
         provide_token_metadata(client, token)
@@ -178,7 +193,7 @@ def prepare_tx_params_deposit_request(client, m_token = MToken.mTBILL, params = 
         "gas": 173290,
         "to": depositVault.address,
         "value": Web3.to_wei(0, "ether"),
-        "chainId": ChainId.ETH,
+        "chainId": getattr(params, 'chainId', ChainId.ETH),
         "data": data
     }
 
@@ -191,8 +206,12 @@ def prepare_tx_params_redeem_instant(client, m_token = MToken.mTBILL, vault_type
     if vault_type == RedemptionVaultType.REGULAR:
         if m_token == MToken.mTBILL:
             redeemVault = contracts.mTBillRedemptionVaultContract  
+        elif m_token == MToken.mTBILL_BASE:
+            redeemVault = contracts.mTBillBaseRedemptionVaultContract  
         elif m_token == MToken.mBASIS: 
             redeemVault = contracts.mBasisRedemptionVaultContract
+        elif m_token == MToken.mBASIS_BASE: 
+            redeemVault = contracts.mBasisBaseRedemptionVaultContract
         else:
             redeemVault = contracts.mBtcRedemptionVaultContract
     elif vault_type == RedemptionVaultType.BUIDL:
@@ -225,7 +244,7 @@ def prepare_tx_params_redeem_instant(client, m_token = MToken.mTBILL, vault_type
         "gas": 173290,
         "to": redeemVault.address,
         "value": Web3.to_wei(0, "ether"),
-        "chainId": ChainId.ETH,
+        "chainId": getattr(params, 'chainId', ChainId.ETH),
         "data": data
     }
 
@@ -237,10 +256,12 @@ def prepare_tx_params_redeem_request(client, m_token = MToken.mTBILL, vault_type
     if vault_type == RedemptionVaultType.REGULAR:
         if m_token == MToken.mTBILL:
             redeemVault = contracts.mTBillRedemptionVaultContract  
+        elif m_token == MToken.mTBILL_BASE:
+            redeemVault = contracts.mTBillBaseRedemptionVaultContract  
         elif m_token == MToken.mBASIS: 
             redeemVault = contracts.mBasisRedemptionVaultContract
-        else:
-            redeemVault = contracts.mBtcRedemptionVaultContract
+        elif m_token == MToken.mBASIS_BASE: 
+            redeemVault = contracts.mBasisBaseRedemptionVaultContract
     elif vault_type == RedemptionVaultType.BUIDL:
         assert(m_token == MToken.mTBILL)
         redeemVault = contracts.mTBillRedemptionVaultBuidlContract
@@ -277,7 +298,7 @@ def prepare_tx_params_redeem_request(client, m_token = MToken.mTBILL, vault_type
         "gas": 173290,
         "to": redeemVault.address,
         "value": Web3.to_wei(0, "ether"),
-        "chainId": ChainId.ETH,
+        "chainId": getattr(params, 'chainId', ChainId.ETH),
         "data": data
     }
 
