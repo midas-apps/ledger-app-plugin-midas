@@ -21,6 +21,10 @@ Smart contracts covered by the plugin shall be described here:
 | Mainnet   | v1  | MBasisRedemptionVaultSwapper  | `0x0D89C1C4799353F3805A3E6C4e1Cbbb83217D123` |
 | Mainnet   | v1  | MBtcDepositVault  | `0x10cC8dbcA90Db7606013d8CD2E77eb024dF693bD` |
 | Mainnet   | v1  | MBtcRedemptionVault  | `0x30d9D1e76869516AEa980390494AaEd45C3EfC1a` |
+| Base      | v1  | MTbillDepositVault  | `0x8978e327FE7C72Fa4eaF4649C23147E279ae1470` |
+| Base      | v1  | MTbillRedemptionVault  | `0x2a8c22E3b10036f3AEF5875d04f8441d4188b656` |
+| Base      | v1  | MBasisDepositVault  | `0x80b666D60293217661E7382737bb3E42348f7CE5` |
+| Base      | v1  | MBasisRedemptionVaultSwapper  | `0xF804a646C034749b5484bF7dfE875F6A4F969840` |
 
 ## Functions
 
