@@ -10,7 +10,7 @@ static inline void printf_hex_array(const char *title __attribute__((unused)),
     };
     PRINTF("\n");
 }
-static inline bool determine_product_type_eth(uint8_t *contract_address) {
+static inline m_product_t determine_product_type_eth(uint8_t *contract_address) {
     bool isMtbill =
         memcmp(m_tbill_deposit_vault_address_eth, contract_address, ADDRESS_LENGTH) == 0 ||
         memcmp(m_tbill_redemption_vault_address_eth, contract_address, ADDRESS_LENGTH) == 0 ||
@@ -30,7 +30,7 @@ static inline bool determine_product_type_eth(uint8_t *contract_address) {
     return M_BASIS;
 }
 
-static inline bool determine_product_type_base(uint8_t *contract_address) {
+static inline m_product_t determine_product_type_base(uint8_t *contract_address) {
     bool isMtbill =
         memcmp(m_tbill_deposit_vault_address_base, contract_address, ADDRESS_LENGTH) == 0 ||
         memcmp(m_tbill_redemption_vault_address_base, contract_address, ADDRESS_LENGTH) == 0;
@@ -43,7 +43,7 @@ static inline bool determine_product_type_base(uint8_t *contract_address) {
 }
 
 static inline bool is_eth_network(const txInt256_t *chain_id) {
-    if (memcmp(chain_id, ETH_CHAIN_ID, ETH_CHAIN_ID_LENGTH) == 0) {
+    if (memcmp(chain_id->value, ETH_CHAIN_ID, ETH_CHAIN_ID_LENGTH) == 0) {
         return true;
     }
 
