@@ -21,7 +21,7 @@ class TestDepositInstant:
         self.__deposit_instant(request, sign_helper, eth_client, MToken.mBASIS, SimpleNamespace(token=UNKN))
 
     def test_deposit_instant_m_tbill_base(self, request, sign_helper, eth_client):
-        self.__deposit_instant(request, sign_helper, eth_client, MToken.mTBILL_BASE, SimpleNamespace(chainId=ChainId.Base))
+        self.__deposit_instant(request, sign_helper, eth_client, MToken.mTBILL_BASE, SimpleNamespace(chainId=ChainId.BASE))
 
     def test_deposit_instant_m_basis_base(self, request, sign_helper, eth_client):
-        self.__deposit_instant(request, sign_helper, eth_client, MToken.mBASIS_BASE, SimpleNamespace(chainId=ChainId.Base))
+        self.__deposit_instant(request, sign_helper, eth_client, MToken.mBASIS_BASE, SimpleNamespace(chainId=ChainId.BASE))
