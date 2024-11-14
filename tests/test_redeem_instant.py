@@ -1,6 +1,7 @@
 from .utils import MToken, RedemptionVaultType, prepare_tx_params_redeem_instant
 from types import SimpleNamespace
 from .token_metadata_database import UNKN
+from eth_typing import ChainId
 
 
 class TestRedeemInstant:
@@ -25,3 +26,9 @@ class TestRedeemInstant:
 
     def test_redeem_instant_m_tbill_unknown_payment_token(self, request, sign_helper, eth_client):
         self.__redeem_instant(request, sign_helper, eth_client, MToken.mBASIS, RedemptionVaultType.REGULAR, SimpleNamespace(token=UNKN))
+
+    def test_redeem_instant_m_tbill_base(self, request, sign_helper, eth_client):
+        self.__redeem_instant(request, sign_helper, eth_client, MToken.mTBILL_BASE, RedemptionVaultType.REGULAR, SimpleNamespace(chainId=ChainId.BASE))
+
+    def test_redeem_instant_m_basis_base(self, request, sign_helper, eth_client):
+        self.__redeem_instant(request, sign_helper, eth_client, MToken.mBASIS_BASE, RedemptionVaultType.REGULAR, SimpleNamespace(chainId=ChainId.BASE))

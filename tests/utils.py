@@ -262,6 +262,8 @@ def prepare_tx_params_redeem_request(client, m_token = MToken.mTBILL, vault_type
             redeemVault = contracts.mBasisRedemptionVaultContract
         elif m_token == MToken.mBASIS_BASE: 
             redeemVault = contracts.mBasisBaseRedemptionVaultContract
+        else:
+            redeemVault = contracts.mBtcRedemptionVaultContract
     elif vault_type == RedemptionVaultType.BUIDL:
         assert(m_token == MToken.mTBILL)
         redeemVault = contracts.mTBillRedemptionVaultBuidlContract
